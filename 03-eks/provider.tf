@@ -7,11 +7,12 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "daws76s-state-dev"
+    bucket         = "pka.in.net"
     key            = "eks"
     region         = "us-east-1"
-    dynamodb_table = "daws76s-locking-dev"
+    dynamodb_table = "pka.in.net-state"
   }
+  
 }
 
 provider "aws" {
