@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.38" # eks module requires more than 5.38
+      version = ">= 5.83.0" # Match the highest required version
     }
   }
 

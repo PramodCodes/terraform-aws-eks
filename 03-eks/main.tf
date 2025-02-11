@@ -3,7 +3,7 @@ module "eks" {
   version = "~> 20.0"
 
   cluster_name    = "roboshop-tf"
-  cluster_version = "1.28"
+  cluster_version = "1.27"
 
   cluster_endpoint_public_access = true
 
@@ -26,7 +26,18 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    # blue = {
+    # First only create blue nodes and deploye some application and test it after that you can use start practicing with green nodes
+    blue = {
+      min_size      = 2
+      max_size      = 10
+      desired_size  = 2
+      capacity_type = "SPOT"
+      iam_role_additional_policies = {
+        AmazonEBSCSIDriverPolicy          = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+        AmazonElasticFileSystemFullAccess = "arn:aws:iam::aws:policy/AmazonElasticFileSystemFullAccess"
+      }
+    }
+    # green = {
     #   min_size      = 2
     #   max_size      = 10
     #   desired_size  = 2
@@ -36,17 +47,6 @@ module "eks" {
     #     AmazonElasticFileSystemFullAccess = "arn:aws:iam::aws:policy/AmazonElasticFileSystemFullAccess"
     #   }
     # }
-    green = {
-      min_size      = 2
-      max_size      = 10
-      desired_size  = 2
-      capacity_type = "SPOT"
-      iam_role_additional_policies = {
-        AmazonEBSCSIDriverPolicy          = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-        AmazonElasticFileSystemFullAccess = "arn:aws:iam::aws:policy/AmazonElasticFileSystemFullAccess"
-      }
-
-    }
   }
 
   tags = var.common_tags
